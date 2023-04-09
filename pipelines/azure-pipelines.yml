@@ -14,9 +14,6 @@ parameters:
 trigger:
   - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
   - template: variables/common.yml
 
