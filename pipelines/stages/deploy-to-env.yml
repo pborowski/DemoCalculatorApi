@@ -19,6 +19,6 @@ stages:
             - task: AzureWebApp@1
               displayName: 'Deploy to Azure Web App'
               inputs:
-                azureSubscription: '$(subscriptionId)'
+                azureSubscription: '$(subscription)'
                 appName: '$(appServiceName)'
                 package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
