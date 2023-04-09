@@ -6,7 +6,7 @@ stages:
 - stage: ${{ parameters.environment.name }}
   dependsOn: ${{ parameters.environment.dependsOn }}
   variables:
-    - template: variables/${{parameters.environment.name}}.yml
+    - template: ../variables/${{parameters.environment.name}}.yml
 
   jobs:
   - deployment: DeployToEnvironment
