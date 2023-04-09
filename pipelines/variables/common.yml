@@ -2,5 +2,5 @@ variables:
   apiProjectName: DemoApp.Api
   appServiceName: $(environment)-pipelines-demo-web
   resourceGroup: rg-$(environment)-pipelines-demo
-  subscription: Free Trial
+  subscription: MyConnection
   unitTestsProjectName: DemoApp.Tests
