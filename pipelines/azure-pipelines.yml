@@ -1,0 +1,64 @@
+parameters:
+  - name: environments
+    type: object
+    default:
+      - name: dev
+        dependsOn: BuildAndTest
+
+      - name: staging
+        dependsOn: dev
+
+      - name: production
+        dependsOn: staging
+
+trigger:
+  - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - template: /variables/common.yml
+
+stages: 
+  - stage: BuildAndTest
+    jobs:
+    - job:
+      steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '5.x'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore dependencies'
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Build'
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          arguments: '--configuration ''Release'''
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Run unit tests'
+        inputs:
+          command: 'test'
+          projects: '**/$(unitTestsProjectName).csproj'
+          arguments: '--configuration ''Release'''
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'
+        inputs:
+          command: 'publish'
+          publishWebProjects: true
+          projects: '**/$(apiProjectName).csproj'
+          arguments: '--configuration ''Release'' --output $(Build.ArtifactStagingDirectory)'
+
+  - ${{ each environment in parameters.environments }}:
+    - template: stages/deploy-to-env.yml
+      parameters:
+        environment: ${{ environment }}

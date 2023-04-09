@@ -1,0 +1,5 @@
+apiProjectName: DemoApp.Api
+appServiceName: $(environment)-pipelines-demo-web
+resourceGroup: rg-$(environment)-pipelines-demo
+subscriptionId: 61b15346-eba5-4dd8-99ea-12e0ffbfdec9
+unitTestsProjectName: DemoApp.Tests

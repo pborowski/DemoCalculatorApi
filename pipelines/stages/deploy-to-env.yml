@@ -1,0 +1,24 @@
+parameters:
+- name: environment
+  type: object
+
+stages:
+- stage: ${{ parameters.environment.name }}
+  dependsOn: ${{ parameters.environment.dependsOn }}
+  variables:
+    - template: /variables/${{parameters.environment.name}}.yml
+
+  jobs:
+  - deployment: DeployToEnvironment
+    displayName: Deploy to ${{parameters.environment.name}}
+    environment: ${{parameters.environment.name}}-pipelines-demo
+    strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: AzureWebApp@1
+              displayName: 'Deploy to Azure Web App'
+              inputs:
+                azureSubscription: '$(subscriptionId)'
+                appName: '$(appServiceName)'
+                package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
