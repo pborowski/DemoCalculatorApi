@@ -1,1 +1,2 @@
-environment: production
+variables:
+  environment: production
