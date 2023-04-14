@@ -21,4 +21,4 @@ stages:
               inputs:
                 azureSubscription: '$(subscription)'
                 appName: '$(appServiceName)'
-                package: '$(Pipeline.Workspace)/drop)/*.zip'
+                package: '$(Pipeline.Workspace)/drop/*.zip'
