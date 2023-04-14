@@ -9,6 +9,10 @@ stages:
     - template: ../variables/${{parameters.environment.name}}.yml
 
   jobs:
+  - download: current
+    displayName: 'Download artifact'
+    artifact: drop
+
   - deployment: DeployToEnvironment
     displayName: Deploy to ${{parameters.environment.name}}
     environment: ${{parameters.environment.name}}-pipelines-demo
@@ -21,4 +25,4 @@ stages:
               inputs:
                 azureSubscription: '$(subscription)'
                 appName: '$(appServiceName)'
-                package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+                package: '$(Pipeline.Workspace)/drop)/**/*.zip'
