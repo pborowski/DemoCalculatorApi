@@ -23,17 +23,13 @@ stages:
   - stage: BuildAndTest
     jobs:
     - job:
+      displayName: 'Build and test'
       steps:
       - task: UseDotNet@2
         displayName: Use .NET 6.0
         inputs:
           packageType: 'sdk'
           version: '6.0.x'
-          
-      - task: UseDotNet@2
-        inputs:
-          packageType: 'sdk'
-          version: '5.x'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restore dependencies'
