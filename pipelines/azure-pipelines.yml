@@ -13,6 +13,8 @@ parameters:
 
 trigger:
   - master
+  
+pool: default
 
 variables:
   - template: variables/common.yml
