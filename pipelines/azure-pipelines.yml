@@ -12,7 +12,9 @@ parameters:
         dependsOn: staging
 
 trigger:
-  - master
+  branches:
+    include:
+      - main
   
 pool: default
 
@@ -58,6 +60,14 @@ stages:
           publishWebProjects: true
           projects: '**/$(apiProjectName).csproj'
           arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        name: 'PublishBuildArtifacts'
+        displayName: 'Publish build artifacts'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
 
   - ${{ each environment in parameters.environments }}:
     - template: stages/deploy-to-env.yml
